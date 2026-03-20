@@ -14,12 +14,10 @@ class AdminFilter implements FilterInterface
             return redirect()->to('/login');
         }
 
-        if (session()->get('user')['role'] !== '1') {
+        if (session()->get('user')['role'] !== 'admin') {
             return redirect()->to('/admin');
         }
     }
 
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
-    {
-    }
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {}
 }

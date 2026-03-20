@@ -1,5 +1,16 @@
-/vendor/
-/.env
+/vendor
+.env
+node_modules
+
+/writable/*
+!/writable/cache/
+!/writable/cache/.gitkeep
+!/writable/session/
+!/writable/session/.gitkeep
+!/writable/uploads/
+!/writable/uploads/.gitkeep
+/writable/logs/*
+!/writable/logs/.gitkeep
 
 #-------------------------
 # Operating Specific Junk Files

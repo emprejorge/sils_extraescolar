@@ -11,18 +11,11 @@ $routes->get('auth/google', 'Auth::google');
 $routes->get('auth/google/callback', 'Auth::callback');
 $routes->get('logout', 'Auth::logout');
 
-$routes->get('dashboard', 'Dashboard::index', ['filter' => 'auth']);
 
 $routes->group('', ['filter' => 'auth'], function ($routes) {
-    $routes->get('horario', 'Horario::index');
-    $routes->post('horario/save', 'Horario::save');
-    $routes->get('horario/imprimir', 'Horario::imprimir');
+    $routes->get('dashboard', 'Dashboard::index');
 });
-
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
-    $routes->get('/', 'Admin::index');
-    $routes->get('usuarios', 'Admin::usuarios');
-    $routes->get('horario/(:num)', 'Admin::verHorario/$1');
-    $routes->post('horario/save/(:num)', 'Admin::guardarHorario/$1');
-    $routes->get('imprimir/(:num)', 'Admin::imprimir/$1');
+    $routes->get('/', 'Admin\Admin::index');
+    $routes->get('usuarios', 'Admin\Admin::usuarios');
 });

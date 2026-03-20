@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Admin;
 
 use App\Models\UserModel;
 use App\Models\HorarioModel;
 use CodeIgniter\I18n\Time;
+use App\Controllers\BaseController;
 
 class Admin extends BaseController
 {
@@ -15,9 +16,10 @@ class Admin extends BaseController
 
         $data = [
             'totalUsuarios' => $usuarioModel->countAll(),
+            'usuarios' => $usuarioModel->getUserList(),
         ];
 
-        return view('admin/dashboard', $data);
+        return $this->render('admin/dashboard', $data);
     }
 
     private function verificarAdmin()
@@ -39,7 +41,7 @@ class Admin extends BaseController
             ->orderBy('users.last_name', 'ASC')
             ->findAll();
 
-        return view('admin/usuarios', [
+        return  $this->render('admin/usuarios', [
             'users' => $users
         ]);
     }

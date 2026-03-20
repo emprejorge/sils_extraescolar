@@ -5,6 +5,10 @@ namespace App\Controllers;
 use CodeIgniter\Controller;
 use Google\Client;
 use App\Models\UserModel;
+use App\Models\ProfileModel;
+use App\Models\RoleModel;
+use App\Models\UserRoleModel;
+use App\Models\UserProviderModel;
 
 class Auth extends Controller
 {
@@ -49,87 +53,166 @@ class Auth extends Controller
     }
 
 
-    /**
-     * Callback de Google después de autenticación
-     */
     public function callback()
     {
-        $client = new Client();
+        $client = new \Google\Client();
         $client->setClientId(env('GOOGLE_CLIENT_ID'));
         $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
         $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
 
         $token = $client->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
 
-        
         if (isset($token['error'])) {
             return redirect()->to('/login');
-            }
-            
-            $client->setAccessToken($token['access_token']);
-            
-            
+        }
+
+        $client->setAccessToken($token['access_token']);
+
         $google_service = new \Google\Service\Oauth2($client);
         $data = $google_service->userinfo->get();
 
         $email = $data->email;
-        $name  = $data->name;
 
-        // 🔐 Validar dominio colegio
+        // Validar dominio
         if (!str_ends_with($email, '@scuolaitalianalaserena.cl')) {
             return redirect()->to('/login');
         }
 
-        // Guardar en sesión
-        $userModel = new UserModel();
+        $userModel       = new UserModel();
+        $profileModel    = new ProfileModel();
+        $roleModel       = new RoleModel();
+        $userRoleModel   = new UserRoleModel();
+        $providerModel   = new UserProviderModel();
 
-        // Buscar usuario
-        $user = $userModel->where('email', $email)->first();
-        $avatar = $user ? $user['avatar'] : null; // Mantener avatar existente si el usuario ya existe, o usar el nuevo de Google si es nuevo
+        /*
+    BUSCAR PROVIDER GOOGLE
+    */
+        $provider = $providerModel
+            ->where('provider', 'google')
+            ->where('provider_id', $data->id)
+            ->first();
 
+        if ($provider) {
 
-        if (!$user) {
-            if($email == 'informatica@scuolaitalianalaserena.cl') {
-                $role = 1; // Admin
-            } else {
-                $role = 2; // Usuario normal
+            $user = $userModel->find($provider['user_id']);
+        } else {
+
+            /*
+        BUSCAR USUARIO POR EMAIL
+        */
+            $user = $userModel->where('email', $email)->first();
+
+            if (!$user) {
+
+                /*
+            CREAR USUARIO
+            */
+                $userId = $userModel->insert([
+                    'email'  => $email,
+                    'active' => 1
+                ]);
+
+                /*
+            DESCARGAR AVATAR
+            */
+                $avatarUrl = $data->picture;
+                $avatarContent = @file_get_contents($avatarUrl);
+
+                $avatar = null;
+
+                if ($avatarContent) {
+
+                    $fileName = 'avatar_' . time() . '.jpg';
+
+                    file_put_contents(
+                        FCPATH . 'uploads/avatars/' . $fileName,
+                        $avatarContent
+                    );
+
+                    $avatar = 'uploads/avatars/' . $fileName;
+                }
+
+                /*
+            CREAR PROFILE
+            */
+                $profileModel->insert([
+                    'user_id'    => $userId,
+                    'first_name' => $data->givenName,
+                    'last_name'  => $data->familyName,
+                    'avatar'     => $avatar
+                ]);
+
+                /*
+            DEFINIR ROL
+            PRIMER USUARIO = ADMIN
+            */
+                $userCount = $userModel->withDeleted()->countAllResults();
+
+                $roleCode = $userCount === 1 ? 'admin' : 'profesor';
+
+                $role = $roleModel->where('code', $roleCode)->first();
+
+                $userRoleModel->insert([
+                    'user_id' => $userId,
+                    'role_id' => $role['id']
+                ]);
+
+                $user = $userModel->find($userId);
             }
 
-            $avatarUrl = $data->picture;
-            $avatarContent = file_get_contents($avatarUrl);
-
-            $fileName = 'avatar_' . time() . '.jpg';
-            file_put_contents(FCPATH . 'uploads/avatars/' . $fileName, $avatarContent);
-
-            $avatar = 'uploads/avatars/' . $fileName;
-
-            // Crear si no existe
-            $userId = $userModel->insert([
-                'google_id' => $data->id,
-                'first_name' => $data->givenName,
-                'last_name'  => $data->familyName,
-                'email'      => $email,
-                'avatar'     => $avatar,
-                'role'       => $role
+            /*
+        GUARDAR PROVIDER GOOGLE
+        */
+            $providerModel->insert([
+                'user_id'     => $user['id'],
+                'provider'    => 'google',
+                'provider_id' => $data->id
             ]);
-
-            $user = $userModel->find($userId);
         }
 
-        // Guardar sesión real
+        /*
+    OBTENER PROFILE
+    */
+        $profile = $profileModel
+            ->where('user_id', $user['id'])
+            ->first();
+
+        /*
+    OBTENER ROL
+    */
+        $role = $userRoleModel
+            ->select('roles.code')
+            ->join('roles', 'roles.id = user_roles.role_id')
+            ->where('user_roles.user_id', $user['id'])
+            ->first();
+
+        /*
+    GENERAR TOKEN DE SESION
+    */
+        $token = bin2hex(random_bytes(32));
+
+        $userModel->update($user['id'], [
+            'token'      => $token,
+            'last_login' => date('Y-m-d H:i:s')
+        ]);
+
+        /*
+    CREAR SESION
+    */
         session()->set('user', [
-            'id'    => $user['id'],
-            'name'  => $user['first_name'] . ' ' . $user['last_name'],
-            'email' => $user['email'],
-            'avatar' => $avatar,
-            'role'  => $user['role'],
+            'id'        => $user['id'],
+            'token'     => $token,
+            'name'      => ($profile['first_name'] ?? '') . ' ' . ($profile['last_name'] ?? ''),
+            'email'     => $user['email'],
+            'avatar'    => $profile['avatar'] ?? null,
+            'role'      => $role['code'] ?? null,
             'logged_in' => true
         ]);
 
-        if($user['role'] == 1) {
+        if (($role['code'] ?? null) === 'admin') {
             return redirect()->to('/admin');
-
         }
+
         return redirect()->to('/horario');
-    }
+    } //.callback
 }
