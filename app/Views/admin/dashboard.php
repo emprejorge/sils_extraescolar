@@ -1,5 +1,15 @@
 <?= $this->extend($layout) ?>
 
+<?= $this->section('breadcrumb') ?>
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="topbar-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Inicio</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+    </ol>
+</nav>
+<?= $this->endsection(); ?>
+
 <?= $this->section('content') ?>
 
 <!-- ─────────────────────────────────────────────
@@ -11,7 +21,7 @@
     <div class="d-flex align-items-start justify-content-between mb-4">
         <div>
             <h1 class="page-title">Dashboard</h1>
-            <p class="page-subtitle">Bienvenido de vuelta, Juan. Aquí tienes el resumen de hoy.</p>
+            <p class="page-subtitle">Bienvenido de vuelta, <?= user()->name ?>. Aquí tienes el resumen de hoy.</p>
         </div>
         <div class="d-flex gap-2">
             <button class="btn btn-outline-secondary btn-sm">
@@ -170,7 +180,11 @@
                                     <tr>
                                         <td>
                                             <div class="d-flex align-items-center gap-2">
-                                                <div class="user-avatar" style="width:32px;height:32px;font-size:0.7rem"><?= $u['first_name'][0] ?></div>
+                                                <img src="<?= base_url($u['avatar']) ?>"
+                                                    alt="<?= esc($u['nombre_completo']) ?>"
+                                                    class="user-avatar"
+                                                    style="width:34px;height:34px;border-radius:50%;object-fit:cover;font-size:0.72rem"
+                                                    onerror="this.outerHTML='<div class=\'user-avatar\' style=\'width:34px;height:34px;font-size:0.72rem;border-radius:50%\'><?= strtoupper(substr($u['first_name'], 0, 1) . substr($u['last_name'] ?? '', 0, 1)) ?></div>'">
                                                 <div>
                                                     <div class="fw-semibold" style="font-size:.85rem;color:var(--text-heading)"><?= $u['nombre_completo'] ?></div>
                                                     <div class="d-none d-sm-block" style="font-size:.75rem;color:var(--text-muted)"><?= $u['email'] ?></div>
@@ -178,7 +192,7 @@
                                             </div>
                                         </td>
                                         <td class="d-none d-md-table-cell">
-                                            <span class="badge bg-secondary bg-opacity-10 text-secondary"><?= $u['roles'] ?></span>
+                                            <span class="badge bg-secondary bg-opacity-10 text-secondary"><?= $roles[$u['roles']] ?></span>
                                         </td>
                                         <td class="d-none d-sm-table-cell" style="color:var(--text-muted);font-size:.82rem"><?= $u['created_at'] ?></td>
                                         <td>
@@ -196,7 +210,7 @@
                                                     <i class="bi bi-three-dots"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a class="dropdown-item" href="#"><i class="bi bi-pencil me-2"></i>Editar</a></li>
+                                                    <li><a class="dropdown-item" href="<?= base_url('admin/usuarios/ver/' . $u['id']); ?>"><i class="bi bi-pencil me-2"></i>Editar</a></li>
                                                     <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash me-2"></i>Eliminar</a></li>
                                                 </ul>
                                             </div>

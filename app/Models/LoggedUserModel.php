@@ -4,11 +4,11 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UserModel extends Model
+class LoggedUserModel extends Model
 {
     protected $table = 'users';
     protected $primaryKey = 'id';
-    protected $returnType = 'array';
+    protected $returnType = \App\Entities\User::class;
     protected $useSoftDeletes = true;
     protected $allowedFields = [
         'email',
@@ -39,18 +39,19 @@ class UserModel extends Model
             profiles.first_name,
             profiles.last_name,
             profiles.avatar,
-            CONCAT(profiles.first_name, " ", profiles.last_name) AS nombre_completo,
-            roles.code as role
+            CONCAT(profiles.first_name, " ", profiles.last_name) AS name,
+            roles.name as role
         ')
             ->join('profiles', 'profiles.user_id = users.id', 'left')
             ->join('user_roles', 'user_roles.user_id = users.id', 'left')
             ->join('roles', 'roles.id = user_roles.role_id', 'left')
             ->where('users.id', $userId)
-            // ->groupBy('users.id')
+
             ->first();
 
-        // if ($user && $user['roles']) {
-        //     $user['roles'] = explode(',', $user['roles']);
+        // if ($user && $user->roles) {
+        //     dd($user->roles);
+        //     $user->roles = explode(',', $user->roles);
         // }
 
         return $user;
@@ -65,7 +66,6 @@ class UserModel extends Model
             users.created_at,
             profiles.first_name as first_name,
             profiles.last_name as last_name,
-            profiles.avatar,
             CONCAT(profiles.first_name, " ", profiles.last_name) AS nombre_completo,
             GROUP_CONCAT(roles.code) as roles
         ')

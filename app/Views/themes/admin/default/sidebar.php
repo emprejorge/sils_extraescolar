@@ -14,15 +14,15 @@
 
         <span class="sidebar-section-label">Principal</span>
 
-        <a href="#" class="nav-item-link active">
+        <a href="<?= base_url('admin'); ?>" class="nav-item-link <?= (url_is('admin')) ? 'active' : ''; ?>">
             <i class="bi bi-grid-1x2 nav-icon"></i>
             <span class="nav-label">Dashboard</span>
         </a>
 
-        <a href="#" class="nav-item-link">
+        <a href="<?= base_url('admin/usuarios'); ?>" class="nav-item-link <?= (url_is('admin/usuarios*')) ? 'active' : ''; ?>">
             <i class="bi bi-people nav-icon"></i>
             <span class="nav-label">Usuarios</span>
-            <span class="nav-badge">12</span>
+            <!-- <span class="nav-badge">12</span> -->
         </a>
 
         <span class="sidebar-section-label">Sistema</span>

@@ -13,9 +13,12 @@ $routes->get('logout', 'Auth::logout');
 
 
 $routes->group('', ['filter' => 'auth'], function ($routes) {
+    $routes->get('perfil', 'Perfil::index');
     $routes->get('dashboard', 'Dashboard::index');
 });
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin\Admin::index');
-    $routes->get('usuarios', 'Admin\Admin::usuarios');
+    $routes->get('usuarios', 'Admin\User::index');
+    $routes->get('usuarios/ver/(:num)', 'Admin\User::show/$1');
+    $routes->get('usuarios/crear', 'Admin\User::new');
 });
