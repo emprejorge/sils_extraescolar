@@ -196,6 +196,111 @@ Abrir en navegador:
 
 ---
 
+# Mantener tu proyecto actualizado con el template
+
+Este proyecto fue creado a partir de un **template repository**.  
+Por defecto, los repositorios creados desde un template **no reciben actualizaciones automáticamente**.
+
+Sin embargo, puedes traer cambios del template usando `git`.
+
+---
+
+## 1. Agregar el template como remote
+
+Primero agrega el repositorio template como un remote adicional.
+
+```bash
+git remote add template https://github.com/ORG/TEMPLATE-REPO.git
+```
+
+Ejemplo:
+
+```bash
+git remote add template https://github.com/my-org/project-template.git
+```
+
+---
+
+## 2. Verificar los remotes
+
+Puedes confirmar que el remote fue agregado correctamente:
+
+```bash
+git remote -v
+```
+
+Deberías ver algo como:
+
+```
+origin    https://github.com/tu-usuario/tu-proyecto.git
+template  https://github.com/my-org/project-template.git
+```
+
+- `origin` → tu repositorio
+- `template` → el template original
+
+---
+
+## 3. Descargar cambios del template
+
+Trae las actualizaciones del template:
+
+```bash
+git fetch template
+```
+
+---
+
+## 4. Aplicar los cambios al proyecto
+
+Luego mezcla los cambios del template con tu proyecto:
+
+```bash
+git merge template/main
+```
+
+Si el template usa `master`:
+
+```bash
+git merge template/master
+```
+
+---
+
+## 5. Resolver conflictos (si aparecen)
+
+Si modificaste archivos que también cambiaron en el template, git puede pedirte resolver conflictos.
+
+Después de resolverlos:
+
+```bash
+git add .
+git commit
+```
+
+---
+
+## Flujo recomendado
+
+Cada cierto tiempo puedes actualizar tu proyecto así:
+
+```bash
+git fetch template
+git merge template/main
+git push
+```
+
+---
+
+## Beneficios
+
+- Puedes **recibir mejoras del template**
+- Mantienes **tu código independiente**
+- Permite **evolucionar múltiples proyectos desde un mismo template**
+
+
+---
+
 ## 👨‍💻 Autor
 
 Sistema desarrollado como solución institucional para gestión interna de
