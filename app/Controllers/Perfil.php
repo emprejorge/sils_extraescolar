@@ -43,7 +43,8 @@ class Perfil extends BaseController
         $data = [
             'usuario' => $usuarioModel->getUserFullData(user()->id),
             'roles' => $roleModel->getRoles(),
-            'academias' => $academias
+            'academias' => $academias,
+            'title' => 'Mi perfil'
         ];
         return $this->render('common/profile', $data);
     }

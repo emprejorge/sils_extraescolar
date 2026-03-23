@@ -18,7 +18,8 @@ class Admin extends BaseController
         $data = [
             'totalUsuarios' => $usuarioModel->countAll(),
             'usuarios' => $usuarioModel->getUserList(),
-            'roles' => $roleModel->getRoles()
+            'roles' => $roleModel->getRoles(),
+            'title' => 'Escritorio'
         ];
 
         return $this->render('admin/dashboard', $data);

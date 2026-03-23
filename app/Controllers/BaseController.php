@@ -49,6 +49,7 @@ abstract class BaseController extends Controller
 
     protected function render($view, $data = [])
     {
+        $data['title'] = isset($data['title']) ? $data['title'] . ' | ' . env('app.name') : env('app.name');
         $data['layout'] = $this->layout;
         return view($view, $data);
     }

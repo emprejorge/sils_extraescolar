@@ -21,7 +21,8 @@ class User extends BaseController
             'totalActivos' => 1,
             'totalPendientes' => 0,
             'totalInactivos' => 1,
-            'pager' => null
+            'pager' => null,
+            'title' => 'Usuarios'
         ];
 
         return $this->render('admin/usuarios/index', $data);
@@ -61,7 +62,8 @@ class User extends BaseController
         $data = [
             'usuario' => $usuarioModel->getUserFullData($id),
             'roles' => $roleModel->getRoles(),
-            'academias' => $academias
+            'academias' => $academias,
+            'title' => 'Usuario'
         ];
         return $this->render('admin/usuarios/show', $data);
     }
@@ -81,7 +83,8 @@ class User extends BaseController
 
         $data = [
             'roles' => $roleModel->getRoles(),
-            'areas' => $areas
+            'areas' => $areas,
+            'title' => 'Usuario nuevo'
         ];
         return $this->render('admin/usuarios/new', $data);
     }

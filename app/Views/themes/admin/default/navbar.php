@@ -59,7 +59,7 @@
                     <hr class="dropdown-divider">
                 </li>
                 <li>
-                    <a class="dropdown-item text-danger" href="#">
+                    <a class="dropdown-item text-danger" href="<?= base_url('logout'); ?>">
                         <i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión
                     </a>
                 </li>
