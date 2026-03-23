@@ -1033,14 +1033,15 @@
         /* ── Export ── */
         function updateExport() {
             const lines = [
-                '// $theme_light',
+                '$theme_light = [',
                 ...Object.entries(state.light).map(([k, v]) => `    '${k}' => '${v}',`),
-                '',
-                '// $theme_dark',
+                '];',
+                '$theme_dark = [',
                 ...Object.entries(state.dark).map(([k, v]) => `    '${k}' => '${v}',`),
-                '',
-                '// $theme_accent',
+                '];',
+                '$theme_accent = [',
                 ...Object.entries(state.accent).map(([k, v]) => `    '${k}' => '${v}',`),
+                '];'
             ];
             document.getElementById('te-export').value = lines.join('\n');
         }
