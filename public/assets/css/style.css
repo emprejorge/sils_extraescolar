@@ -116,7 +116,7 @@ a:hover {
   font-family: 'Lato', sans-serif;
   font-weight: 800;
   font-size: 1.25rem;
-  color: var(--text-heading);
+  color: var(--text-brand);
   letter-spacing: -0.03em;
   opacity: 1;
   transition: opacity 0.2s ease;
@@ -1208,4 +1208,150 @@ a:hover {
   opacity: 1;
   transform: translateY(0);
   transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* ============================================================
+   26. BOOTSTRAP SEMANTIC BUTTON FIXES
+   ============================================================ */
+.btn-success {
+    --bs-btn-bg:           var(--color-success);
+    --bs-btn-border-color: var(--color-success);
+    --bs-btn-hover-bg:     color-mix(in srgb, var(--color-success) 85%, #000);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-success) 85%, #000);
+    --bs-btn-active-bg:    color-mix(in srgb, var(--color-success) 75%, #000);
+    --bs-btn-focus-shadow-rgb: 34, 197, 94;
+}
+.btn-danger {
+    --bs-btn-bg:           var(--color-danger);
+    --bs-btn-border-color: var(--color-danger);
+    --bs-btn-hover-bg:     color-mix(in srgb, var(--color-danger) 85%, #000);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-danger) 85%, #000);
+    --bs-btn-active-bg:    color-mix(in srgb, var(--color-danger) 75%, #000);
+    --bs-btn-focus-shadow-rgb: 239, 68, 68;
+}
+.btn-warning {
+    --bs-btn-bg:           var(--color-warning);
+    --bs-btn-border-color: var(--color-warning);
+    --bs-btn-hover-bg:     color-mix(in srgb, var(--color-warning) 85%, #000);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-warning) 85%, #000);
+    --bs-btn-active-bg:    color-mix(in srgb, var(--color-warning) 75%, #000);
+    --bs-btn-focus-shadow-rgb: 245, 158, 11;
+}
+.btn-info {
+    --bs-btn-bg:           var(--color-info);
+    --bs-btn-border-color: var(--color-info);
+    --bs-btn-hover-bg:     color-mix(in srgb, var(--color-info) 85%, #000);
+    --bs-btn-hover-border-color: color-mix(in srgb, var(--color-info) 85%, #000);
+    --bs-btn-active-bg:    color-mix(in srgb, var(--color-info) 75%, #000);
+    --bs-btn-focus-shadow-rgb: 59, 130, 246;
+}
+.btn-outline-success { --bs-btn-color: var(--color-success); --bs-btn-border-color: var(--color-success); --bs-btn-hover-bg: var(--color-success); }
+.btn-outline-danger  { --bs-btn-color: var(--color-danger);  --bs-btn-border-color: var(--color-danger);  --bs-btn-hover-bg: var(--color-danger); }
+.btn-outline-warning { --bs-btn-color: var(--color-warning); --bs-btn-border-color: var(--color-warning); --bs-btn-hover-bg: var(--color-warning); }
+.btn-outline-info    { --bs-btn-color: var(--color-info);    --bs-btn-border-color: var(--color-info);    --bs-btn-hover-bg: var(--color-info); }
+
+/* Badges semánticos */
+.badge.bg-success { background-color: var(--color-success) !important; }
+.badge.bg-danger  { background-color: var(--color-danger)  !important; }
+.badge.bg-warning { background-color: var(--color-warning) !important; }
+.badge.bg-info    { background-color: var(--color-info)    !important; }
+
+/* Alerts semánticas */
+.alert-success {
+    --bs-alert-color:      color-mix(in srgb, var(--color-success) 60%, #000);
+    --bs-alert-bg:         color-mix(in srgb, var(--color-success) 12%, var(--card-bg));
+    --bs-alert-border-color: color-mix(in srgb, var(--color-success) 30%, transparent);
+}
+.alert-danger {
+    --bs-alert-color:      color-mix(in srgb, var(--color-danger) 60%, #000);
+    --bs-alert-bg:         color-mix(in srgb, var(--color-danger) 12%, var(--card-bg));
+    --bs-alert-border-color: color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+.alert-warning {
+    --bs-alert-color:      color-mix(in srgb, var(--color-warning) 60%, #000);
+    --bs-alert-bg:         color-mix(in srgb, var(--color-warning) 12%, var(--card-bg));
+    --bs-alert-border-color: color-mix(in srgb, var(--color-warning) 30%, transparent);
+}
+.alert-info {
+    --bs-alert-color:      color-mix(in srgb, var(--color-info) 60%, #000);
+    --bs-alert-bg:         color-mix(in srgb, var(--color-info) 12%, var(--card-bg));
+    --bs-alert-border-color: color-mix(in srgb, var(--color-info) 30%, transparent);
+}
+
+/* ============================================================
+   27. SIDEBAR NAV GROUPS (dropdown)
+   ============================================================ */
+
+/* Botón toggle — igual que un link pero sin underline */
+.nav-group-toggle {
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+}
+
+/* Chevron animado */
+.nav-chevron {
+    font-size: .75rem;
+    margin-left: auto;
+    flex-shrink: 0;
+    transition: transform .25s ease, opacity .2s ease;
+    opacity: .5;
+}
+
+.nav-group.open > .nav-group-toggle .nav-chevron {
+    transform: rotate(-180deg);
+    opacity: 1;
+}
+
+/* Cuerpo colapsable */
+.nav-group-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-group.open > .nav-group-body {
+    max-height: 300px; /* suficiente para cualquier cantidad de hijos */
+}
+
+/* Items hijos — indentados con línea vertical */
+.nav-item-child {
+    padding-left: 48px;
+    position: relative;
+    font-size: .85rem;
+}
+
+.nav-item-child::after {
+    content: '';
+    position: absolute;
+    left: 31px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--border-color);
+    transition: background .2s ease;
+}
+
+.nav-item-child:hover::after,
+.nav-item-child.active::after {
+    background: var(--accent);
+}
+
+/* Cuando el sidebar está colapsado:
+   ocultar chevron y mostrar tooltip nativo */
+#sidebar.collapsed .nav-chevron {
+    display: none;
+}
+
+/* En collapsed el body siempre cerrado visualmente */
+#sidebar.collapsed .nav-group-body {
+    max-height: 0 !important;
+}
+
+/* El toggle en collapsed se comporta como link normal */
+#sidebar.collapsed .nav-group-toggle {
+    justify-content: center;
 }
