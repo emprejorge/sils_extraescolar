@@ -22,15 +22,40 @@
         <a href="<?= base_url('admin/usuarios'); ?>" class="nav-item-link <?= (url_is('admin/usuarios*')) ? 'active' : ''; ?>">
             <i class="bi bi-people nav-icon"></i>
             <span class="nav-label">Usuarios</span>
-            <!-- <span class="nav-badge">12</span> -->
         </a>
 
         <span class="sidebar-section-label">Sistema</span>
 
-        <a href="#" class="nav-item-link">
-            <i class="bi bi-gear nav-icon"></i>
-            <span class="nav-label">Configuración</span>
-        </a>
+        <!-- ── Configuración (dropdown) ── -->
+        <?php
+        $config_active = url_is('admin/configuracion*') || url_is('admin/tema*') || url_is('admin/permisos*');
+        ?>
+        <div class="nav-group <?= $config_active ? 'open' : '' ?>">
+            <button class="nav-item-link nav-group-toggle w-100 <?= $config_active ? 'active' : '' ?>">
+                <i class="bi bi-gear nav-icon"></i>
+                <span class="nav-label">Configuración</span>
+                <i class="bi bi-chevron-down nav-chevron ms-auto"></i>
+            </button>
+            <div class="nav-group-body">
+                <a href="<?= base_url('admin/configuracion/general') ?>"
+                    class="nav-item-link nav-item-child <?= url_is('admin/configuracion/general*') ? 'active' : '' ?>">
+                    <i class="bi bi-sliders nav-icon"></i>
+                    <span class="nav-label">General</span>
+                </a>
+
+                <a href="<?= base_url('admin/permisos') ?>"
+                    class="nav-item-link nav-item-child <?= url_is('admin/permisos*') ? 'active' : '' ?>">
+                    <i class="bi bi-shield-check nav-icon"></i>
+                    <span class="nav-label">Permisos</span>
+                </a>
+
+                <a href="<?= base_url('admin/config/tema') ?>"
+                    class="nav-item-link nav-item-child <?= url_is('admin/tema*') ? 'active' : '' ?>">
+                    <i class="bi bi-palette nav-icon"></i>
+                    <span class="nav-label">Editor de tema</span>
+                </a>
+            </div>
+        </div>
 
     </nav>
 

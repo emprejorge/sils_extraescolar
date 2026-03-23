@@ -121,10 +121,36 @@ $ci_flash = null; // null = no hay flash message
     <style id="theme-vars">
         :root {
             <?= buildCssVars($theme_accent, $layout_vars, $theme_light) ?>
+            /* ── Bootstrap bridge ── */
+            --bs-primary: var(--accent);
+            --bs-link-color: var(--accent);
+            --bs-link-hover-color: var(--accent-hover);
+            --bs-success: var(--color-success);
+            --bs-danger: var(--color-danger);
+            --bs-warning: var(--color-warning);
+            --bs-info: var(--color-info);
+            --bs-body-bg: var(--body-bg);
+            --bs-body-color: var(--text-primary);
+            --bs-border-color: var(--border-color);
+            --bs-secondary-bg: var(--card-bg);
+            --bs-tertiary-bg: var(--input-bg);
+
+            /* RGB para que Bootstrap pueda hacer rgba() con opacidad */
+            --bs-primary-rgb: <?= implode(',', sscanf($theme_accent['--accent'],      '#%02x%02x%02x')) ?>;
+            --bs-success-rgb: <?= implode(',', sscanf($theme_accent['--color-success'], '#%02x%02x%02x')) ?>;
+            --bs-danger-rgb: <?= implode(',', sscanf($theme_accent['--color-danger'], '#%02x%02x%02x')) ?>;
+            --bs-warning-rgb: <?= implode(',', sscanf($theme_accent['--color-warning'], '#%02x%02x%02x')) ?>;
+            --bs-info-rgb: <?= implode(',', sscanf($theme_accent['--color-info'],   '#%02x%02x%02x')) ?>;
         }
 
         [data-theme="dark"] {
             <?= buildCssVars($theme_dark) ?>
+            /* Bridge oscuro */
+            --bs-body-bg: var(--body-bg);
+            --bs-body-color: var(--text-primary);
+            --bs-border-color: var(--border-color);
+            --bs-secondary-bg: var(--card-bg);
+            --bs-tertiary-bg: var(--input-bg);
         }
     </style>
 </head>
@@ -312,6 +338,30 @@ $ci_flash = null; // null = no hay flash message
                     label.style.color = 'var(--text-primary)';
                 }
             });
+        });
+
+
+        // ── 8. SIDEBAR NAV GROUPS ─────────────────────────────────
+        document.querySelectorAll('.nav-group-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Si el sidebar está colapsado, no hacer nada
+                if (sidebar.classList.contains('collapsed')) return;
+
+                const group = btn.closest('.nav-group');
+                const isOpen = group.classList.toggle('open');
+
+                // Cerrar otros grupos abiertos (acordeón opcional)
+                document.querySelectorAll('.nav-group').forEach(g => {
+                    if (g !== group) g.classList.remove('open');
+                });
+            });
+        });
+
+        // Reabrir el grupo si tiene un hijo activo al cargar
+        document.querySelectorAll('.nav-group').forEach(group => {
+            if (group.querySelector('.nav-item-child.active')) {
+                group.classList.add('open');
+            }
         });
     </script>
 
