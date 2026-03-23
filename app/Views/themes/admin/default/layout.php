@@ -8,73 +8,57 @@
  * Los colores se inyectan como CSS custom properties en el <head>.
  */
 
-// ─── TEMA: LIGHT ──────────────────────────────────────────────────────────────
 $theme_light = [
-    '--body-bg'                => '#f0f2f7',
-    '--sidebar-bg'             => '#fafafa',
-    '--topbar-bg'              => 'rgba(255,255,255,0.85)',
-    '--card-bg'                => '#fcfcfc',
-    '--toast-bg'               => '#ffffff',
-    '--dropdown-bg'            => '#ffffff',
-    '--input-bg'               => '#f4f5f7',
-    '--border-color'           => '#e8eaed',
-    '--text-brand'           => '#3b3b3b',
-    '--text-primary'           => '#424242',
-    '--text-heading'           => '#585858',
-    '--text-muted'             => '#8b90a7',
-    '--sidebar-text'           => '#cacaca',
-    '--sidebar-link'           => '#3b3b3b',
-    '--sidebar-link-hover'     => '#2d3142',
-    '--sidebar-link-hover-bg'  => '#f4f5f7',
+    '--body-bg' => '#f0f2f7',
+    '--sidebar-bg' => '#00527a',
+    '--topbar-bg' => '#ffffff',
+    '--card-bg' => '#fcfcfc',
+    '--input-bg' => '#f4f5f7',
+    '--dropdown-bg' => '#ffffff',
+    '--text-primary' => '#424242',
+    '--text-heading' => '#585858',
+    '--text-muted' => '#8b90a7',
+    '--text-brand' => '#ffffff',
+    '--sidebar-text' => '#cacaca',
+    '--sidebar-link' => '#ffffff',
+    '--sidebar-link-hover' => '#2d3142',
+    '--sidebar-link-hover-bg' => '#82b9d4',
     '--sidebar-link-active-text' => '#f6f6f6',
     '--sidebar-link-active-bg' => '#223654',
-    '--btn-ghost-hover'        => '#f0f1f5',
-    '--table-row-hover'        => '#f8f9fb',
-    '--table-stripe-bg'        => '#fafbfc',
-    '--progress-bg'            => '#eceef2',
-    '--skeleton-base'          => '#e8eaed',
-    '--skeleton-shine'         => '#f4f5f7',
-    '--card-shadow'            => '0 1px 3px rgba(0,0,0,0.05), 0 4px 16px rgba(0,0,0,0.04)',
-    '--card-shadow-hover'      => '0 4px 20px rgba(0,0,0,0.09)',
+    '--border-color' => '#e8eaed',
+    '--btn-ghost-hover' => '#f0f1f5',
+    '--table-row-hover' => '#f8f9fb',
+    '--progress-bg' => '#eceef2',
 ];
-
-// ─── TEMA: DARK ───────────────────────────────────────────────────────────────
 $theme_dark = [
-    '--body-bg'                => '#0f1117',
-    '--sidebar-bg'             => '#161820',
-    '--topbar-bg'              => 'rgba(22,24,32,0.88)',
-    '--card-bg'                => '#1c1e28',
-    '--toast-bg'               => '#1c1e28',
-    '--dropdown-bg'            => '#1c1e28',
-    '--input-bg'               => '#12141b',
-    '--border-color'           => '#2a2d3a',
-    '--text-primary'           => '#c8cadb',
-    '--text-heading'           => '#e8eaf0',
-    '--text-muted'             => '#5c6070',
-    '--sidebar-text'           => '#6b7080',
-    '--sidebar-link'           => '#7a7f96',
-    '--sidebar-link-hover'     => '#e8eaf0',
-    '--sidebar-link-hover-bg'  => '#22253000',
+    '--body-bg' => '#0f1117',
+    '--sidebar-bg' => '#161820',
+    '--topbar-bg' => 'rgba(22,24,32,0.88)',
+    '--card-bg' => '#1c1e28',
+    '--input-bg' => '#12141b',
+    '--dropdown-bg' => '#1c1e28',
+    '--text-primary' => '#c8cadb',
+    '--text-heading' => '#e8eaf0',
+    '--text-muted' => '#5c6070',
+    '--sidebar-text' => '#6b7080',
+    '--sidebar-link' => '#7a7f96',
+    '--sidebar-link-hover' => '#e8eaf0',
+    '--sidebar-link-hover-bg' => '#22253000',
     '--sidebar-link-active-bg' => 'rgba(99,102,241,0.12)',
-    '--btn-ghost-hover'        => '#222535',
-    '--table-row-hover'        => '#20222e',
-    '--table-stripe-bg'        => '#191b24',
-    '--progress-bg'            => '#2a2d3a',
-    '--skeleton-base'          => '#2a2d3a',
-    '--skeleton-shine'         => '#333646',
-    '--card-shadow'            => '0 1px 3px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.2)',
-    '--card-shadow-hover'      => '0 4px 24px rgba(0,0,0,0.35)',
+    '--border-color' => '#2a2d3a',
+    '--btn-ghost-hover' => '#222535',
+    '--table-row-hover' => '#20222e',
+    '--progress-bg' => '#2a2d3a',
+];
+$theme_accent = [
+    '--accent' => '#005e99',
+    '--accent-hover' => '#ff428b',
+    '--color-success' => '#a7c957',
+    '--color-danger' => '#ec3232',
+    '--color-warning' => '#ffc800',
+    '--color-info' => '#51b8ec',
 ];
 
-// ─── COLORES DE ACENTO (comunes a todos los temas) ────────────────────────────
-$theme_accent = [
-    '--accent'        => '#0590a2',   // Indigo
-    '--accent-hover'  => '#4f52d6',
-    '--color-success' => '#22c55e',
-    '--color-danger'  => '#ef4444',
-    '--color-warning' => '#f59e0b',
-    '--color-info'    => '#3b82f6',
-];
 
 // ─── DIMENSIONES ──────────────────────────────────────────────────────────────
 $layout_vars = [
@@ -93,7 +77,6 @@ function buildCssVars(array ...$maps): string
     }
     return implode("\n", $lines);
 }
-
 // Mensaje de notificación desde el controlador (simula retorno CI)
 // $ci_flash = ['type' => 'success', 'title' => 'Guardado', 'message' => 'Los cambios fueron guardados correctamente.'];
 $ci_flash = null; // null = no hay flash message
