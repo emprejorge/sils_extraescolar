@@ -15,7 +15,7 @@ class Auth extends Controller
     public function index()
     {
         if (session()->get('user')) {
-            return redirect()->to('/horario');
+            return redirect()->to('/dashboard');
         }
 
         return redirect()->to('/login');
@@ -93,7 +93,6 @@ class Auth extends Controller
             ->first();
 
         if ($provider) {
-
             $user = $userModel->find($provider['user_id']);
         } else {
 
@@ -185,7 +184,6 @@ class Auth extends Controller
             ->join('roles', 'roles.id = user_roles.role_id')
             ->where('user_roles.user_id', $user['id'])
             ->first();
-
         /*
     GENERAR TOKEN DE SESION
     */
@@ -213,6 +211,6 @@ class Auth extends Controller
             return redirect()->to('/admin');
         }
 
-        return redirect()->to('/horario');
+        return redirect()->to('/dashboard');
     } //.callback
 }

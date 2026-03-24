@@ -14,7 +14,9 @@ $routes->get('logout', 'Auth::logout');
 
 $routes->group('', ['filter' => 'auth'], function ($routes) {
     $routes->get('perfil', 'Perfil::index');
-    $routes->get('dashboard', 'Dashboard::index');
+    $routes->get('dashboard', 'Profesor\Profesor::index');
+
+    $routes->get('asistencia/pasar/(:num)', 'Profesor\Asistencia::pasar/$1');
 });
 $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('/', 'Admin\Admin::index');
