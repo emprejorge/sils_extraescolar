@@ -24,6 +24,11 @@
             <span class="nav-label">Usuarios</span>
         </a>
 
+        <a href="<?= base_url('admin/academias'); ?>" class="nav-item-link <?= (url_is('admin/academias*')) ? 'active' : ''; ?>">
+            <i class="bi bi-people nav-icon"></i>
+            <span class="nav-label">Academias</span>
+        </a>
+
         <span class="sidebar-section-label">Sistema</span>
 
         <!-- ── Configuración (dropdown) ── -->

@@ -26,6 +26,10 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('usuarios/ver/(:num)', 'Admin\User::show/$1');
     $routes->get('usuarios/crear', 'Admin\User::new');
 
+    // ACADEMIAS
+    $routes->get('academias', 'Admin\Academia::index');
+    // $routes->view('academias', 'admin/academias/index');
+
     // CONFIGURACION
     $routes->get('config/tema', 'Admin\Config\ThemeEditor::index');
 });
