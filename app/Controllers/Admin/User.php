@@ -16,7 +16,7 @@ class User extends BaseController
 
         $data = [
             'totalUsuarios' => $usuarioModel->countAll(),
-            'usuarios' => $usuarioModel->getUserList(),
+            'usuarios' => $usuarioModel->getSimpleUserList(),
             'roles' => $roleModel->getRoles(),
             'totalActivos' => 1,
             'totalPendientes' => 0,

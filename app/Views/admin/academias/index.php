@@ -7,35 +7,6 @@
 // DATOS FICTICIOS — reemplazar con variables del controlador
 // ──────────────────────────────────────────────────────────────
 
-// Stats rápidas (calculadas en el controlador con queries)
-$stats = [
-    'total'          => 8,   // COUNT(*) FROM academias
-    'activas_hoy'    => 3,   // academias con horario en dia_semana = hoy
-    'total_alumnos'  => 94,  // COUNT DISTINCT alumnos inscritos en alguna academia activa
-    'sin_profesor'   => 1,   // academias sin profesor asignado
-];
-
-// Lista de profesores
-$profesores = [
-    [
-        'id'          => 1,
-        'nombre'      => 'Jesus Lokketh',
-    ],
-    [
-        'id'          => 2,
-        'nombre'      => 'Yacay Olcese',
-    ],
-    [
-        'id'          => 3,
-        'nombre'      => 'Bruno Corio',
-    ],
-    [
-        'id'          => 4,
-        'nombre'      => 'Ingrid Machuca',
-    ]
-
-];
-
 // Lista de academias
 // Cada academia trae sus horarios ya agrupados (JOIN con academia_horarios)
 // y conteos calculados en el controlador
@@ -466,7 +437,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
                                 name="field-profesor" id="field-profesor" required>
                                 <option value="" disabled selected>Seleccionar...</option>
                                 <?php foreach ($profesores as $p): ?>
-                                    <option value="<?= $p['id']; ?>"><?= $p['nombre']; ?></option>
+                                    <option value="<?= $p['id']; ?>"><?= $p['nombre_completo']; ?></option>
                                 <?php endforeach; ?>
                             </select>
                         </div>

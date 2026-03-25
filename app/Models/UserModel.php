@@ -79,4 +79,22 @@ class UserModel extends Model
 
         return $user;
     }
+
+    public function getTeacherList()
+    {
+        $user = $this->select('
+            users.id,
+            CONCAT(profiles.first_name, " ", profiles.last_name) AS nombre_completo,
+        ')
+            ->join('profiles', 'profiles.user_id = users.id', 'left')
+            ->join('user_roles', 'user_roles.user_id = users.id', 'left')
+            ->join('roles', 'roles.id = user_roles.role_id', 'left')
+            ->groupBy('users.id')
+            // ->where('roles.code', 'profesor')
+            ->findAll();
+
+
+
+        return $user;
+    }
 }
