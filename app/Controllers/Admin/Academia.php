@@ -8,6 +8,15 @@ use App\Models\UserModel;
 
 class Academia extends BaseController
 {
+    protected $academiaModel;
+    protected $horarioModel;
+
+    public function __construct()
+    {
+        $this->academiaModel = new \App\Models\AcademiaModel();
+        $this->horarioModel  = new \App\Models\HorarioModel();
+    }
+
     public function index()
     {
         $usuarioModel = new UserModel();
@@ -27,5 +36,47 @@ class Academia extends BaseController
             'title' => 'Usuarios'
         ];
         return $this->render('admin/academias/index', $data);
+    }
+
+
+    /**
+     * GUARDAR
+     */
+    public function guardar()
+    {
+
+        // 1. Insertar academia
+        $academiaId = $this->academiaModel->insert([
+            'nombre'      => $this->request->getPost('nombre'),
+            'descripcion' => $this->request->getPost('descripcion'),
+            'sala'        => $this->request->getPost('sala'),
+            'cupos'       => $this->request->getPost('cupos'),
+            'activa'      => $this->request->getPost('activa') ? 1 : 0,
+        ]);
+
+        // 2. Insertar horarios (siempre borra y recrea en edición)
+        foreach ($this->request->getPost('horarios') as $h) {
+            $this->horarioModel->insert([
+                'academia_id' => $academiaId,
+                'dia_semana'  => $h['dia_semana'],
+                'hora_inicio' => $h['hora_inicio'],
+                'hora_fin'    => $h['hora_fin'],
+            ]);
+        }
+
+        // 3. Asigna profesor
+        $profesor = $this->request->getPost('profesor');
+        if (!empty($profesor)) {
+            $this->academiaModel->asignarProfesor($academiaId, $profesor);
+        }
+
+
+        return redirect()->to('/admin/academias')
+            ->with('success', 'Academia creada exitosamente');
+    }
+
+    public function asignar()
+    {
+        return $this->render('admin/academias/asignar');
     }
 }

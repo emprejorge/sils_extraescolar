@@ -28,6 +28,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
     // ACADEMIAS
     $routes->get('academias', 'Admin\Academia::index');
+    $routes->post('academias/guardar', 'Admin\Academia::guardar');
+    $routes->get('academias/asignar/(:num)', 'Admin\Academia::asignar/$1');
     // $routes->view('academias', 'admin/academias/index');
 
     // CONFIGURACION

@@ -316,8 +316,8 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
-                                                <a class="dropdown-item" href="<?= site_url('academias/ver/' . $a['id']) ?>">
-                                                    <i class="bi bi-eye me-2"></i>Ver detalle
+                                                <a class="dropdown-item" href="<?= site_url('admin/academias/asignar/' . $a['id']) ?>">
+                                                    <i class="bi bi-eye me-2"></i>Asignar
                                                 </a>
                                             </li>
                                             <li>
@@ -328,7 +328,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
                                                 </a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="<?= site_url('academias/toggle/' . $a['id']) ?>">
+                                                <a class="dropdown-item" href="<?= site_url('admin/academias/toggle/' . $a['id']) ?>">
                                                     <?php if ($a['activa'] === '1'): ?>
                                                         <i class="bi bi-pause-circle me-2 text-warning"></i>
                                                         <span class="text-warning">Desactivar</span>
@@ -389,7 +389,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
             </div>
 
             <form id="form-academia"
-                action="<?= site_url('academias/guardar') ?>"
+                action="<?= site_url('admin/academias/guardar') ?>"
                 method="post">
                 <?= csrf_field() ?>
                 <!-- Campo oculto: si tiene valor = edición, si está vacío = creación -->
@@ -434,7 +434,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
                         <div class="col-12">
                             <label class="form-label" for="field-profesor">Profesor/a</label>
                             <select class="form-select form-select-sm"
-                                name="field-profesor" id="field-profesor" required>
+                                name="profesor" id="field-profesor" required>
                                 <option value="" disabled selected>Seleccionar...</option>
                                 <?php foreach ($profesores as $p): ?>
                                     <option value="<?= $p['id']; ?>"><?= $p['nombre_completo']; ?></option>
@@ -636,7 +636,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
 
             // Cambia action del form al endpoint de actualizar
             document.getElementById('form-academia').action =
-                '<?= site_url('academias/actualizar') ?>/' + academia.id;
+                '<?= site_url('admin/academias/actualizar') ?>/' + academia.id;
 
             // Rellena campos
             document.getElementById('field-id').value = academia.id;
@@ -698,10 +698,11 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
         // Resetear modal al cerrar (vuelve a modo "crear")
         document.getElementById('modal-nueva').addEventListener('hidden.bs.modal', function() {
             document.getElementById('form-academia').reset();
-            document.getElementById('form-academia').action = '<?= site_url('academias/guardar') ?>';
+            document.getElementById('form-academia').action = '<?= site_url('admin/academias/guardar') ?>';
             document.getElementById('modal-titulo').textContent = 'Nueva academia';
             document.getElementById('btn-submit-label').textContent = 'Crear academia';
             document.getElementById('field-id').value = '';
+            document.getElementById('field-profesor').value = '';
             document.getElementById('field-activa').checked = true;
 
             // Deja solo la primera fila de horario limpia
@@ -718,7 +719,7 @@ $hoy_num = (int) date('N'); // 1=Lunes ... 5=Viernes
         window.confirmarEliminar = function(id, nombre) {
             document.getElementById('modal-nombre-academia').textContent = nombre;
             document.getElementById('btn-confirmar-eliminar').href =
-                '<?= site_url('academias/eliminar') ?>/' + id;
+                '<?= site_url('admin/academias/eliminar') ?>/' + id;
             new bootstrap.Modal(document.getElementById('modal-eliminar')).show();
         };
 
